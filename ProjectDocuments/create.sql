@@ -1,6 +1,9 @@
 /*==============================================================*/
 /* Table : GAMES                                                */
 /*==============================================================*/
+DROP TABLE IF EXISTS Games
+GO
+
 CREATE TABLE Games (
    idGame INTEGER PRIMARY KEY,
    name VARCHAR(100) NOT NULL
@@ -10,6 +13,9 @@ GO
 /*==============================================================*/
 /* Table : COMBINATIONTYPES                                     */
 /*==============================================================*/
+DROP TABLE IF EXISTS CombinationTypes
+GO
+
 CREATE TABLE CombinationTypes (
    idCombinationType INTEGER PRIMARY KEY,
    symbolPath VARCHAR(255) NULL,
@@ -20,6 +26,9 @@ GO
 /*==============================================================*/
 /* Table : KEYS                                                 */
 /*==============================================================*/
+DROP TABLE IF EXISTS Keys
+GO
+
 CREATE TABLE Keys (
    idKey INTEGER PRIMARY KEY,
    name VARCHAR(50) NOT NULL
@@ -29,16 +38,24 @@ GO
 /*==============================================================*/
 /* Table : PATCHES                                              */
 /*==============================================================*/
+DROP TABLE IF EXISTS Patches
+GO
+
 CREATE TABLE Patches (
    idPatch INTEGER PRIMARY KEY,
+   idGame INTEGER NOT NULL,
    version VARCHAR(50) NOT NULL,
-   changelog TEXT NULL
+   changelog TEXT NULL,
+   FOREIGN KEY (idGame) REFERENCES Games (idGame)
 )
 GO
 
 /*==============================================================*/
 /* Table : PROPERTIES                                           */
 /*==============================================================*/
+DROP TABLE IF EXISTS Properties
+GO
+
 CREATE TABLE Properties (
    idProperty INTEGER PRIMARY KEY,
    name VARCHAR(50) NOT NULL,
@@ -49,6 +66,9 @@ GO
 /*==============================================================*/
 /* Table : CHARACTERS                                           */
 /*==============================================================*/
+DROP TABLE IF EXISTS Characters
+GO
+
 CREATE TABLE Characters (
    idCharacter INTEGER PRIMARY KEY,
    idGame INTEGER NOT NULL,
@@ -60,6 +80,9 @@ GO
 /*==============================================================*/
 /* Table : COMMANDS                                             */
 /*==============================================================*/
+DROP TABLE IF EXISTS Commands
+GO
+
 CREATE TABLE Commands (
    idCommand INTEGER PRIMARY KEY,
    idGame INTEGER NOT NULL,
@@ -74,6 +97,9 @@ GO
 /*==============================================================*/
 /* Table : MOVES                                                */
 /*==============================================================*/
+DROP TABLE IF EXISTS Moves
+GO
+
 CREATE TABLE Moves (
    idMove INTEGER PRIMARY KEY,
    idCharacter INTEGER NOT NULL,
@@ -85,6 +111,9 @@ GO
 /*==============================================================*/
 /* Table : INPUTS                                               */
 /*==============================================================*/
+DROP TABLE IF EXISTS Inputs
+GO
+
 CREATE TABLE Inputs (
    idInput INTEGER PRIMARY KEY,
    idStartState INTEGER NULL,
@@ -104,33 +133,29 @@ GO
 /*==============================================================*/
 /* Table : MOVESPROPERTIES                                      */
 /*==============================================================*/
+DROP TABLE IF EXISTS MovesProperties
+GO
+
 CREATE TABLE MovesProperties (
    idMoveProperty INTEGER PRIMARY KEY,
    idProperty INTEGER NOT NULL,
    idMove INTEGER NOT NULL,
+   idPatch INTEGER NOT NULL,
    valueNumeric NUMERIC NULL,
    valueReal REAL NULL,
    valueText TEXT NULL,
    FOREIGN KEY (idMove) REFERENCES Moves (idMove),
-   FOREIGN KEY (idProperty) REFERENCES Properties (idProperty)
-)
-GO
-
-/*==============================================================*/
-/* Table : PATCHEDIN
-/*==============================================================*/
-CREATE TABLE PatchedIn (
-   idPatch INTEGER NOT NULL,
-   idMoveProperty INTEGER NOT NULL,
-   FOREIGN KEY (idMoveProperty) REFERENCES MovesProperties (idMoveProperty),
-   FOREIGN KEY (idPatch) REFERENCES Patches (idPatch),
-   CONSTRAINT PK_PatchedInID PRIMARY KEY (idPatch, idMoveProperty)
+   FOREIGN KEY (idProperty) REFERENCES Properties (idProperty),
+   FOREIGN KEY (idPatch) REFERENCES Patches (idPatch)
 )
 GO
 
 /*==============================================================*/
 /* Table : STATES                                               */
 /*==============================================================*/
+DROP TABLE IF EXISTS States
+GO
+
 CREATE TABLE States (
    idState INTEGER PRIMARY KEY,
    idCharacter INTEGER NULL,
