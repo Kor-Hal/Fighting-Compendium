@@ -18,7 +18,7 @@ GO
 
 CREATE TABLE CombinationTypes (
    idCombinationType INTEGER PRIMARY KEY,
-   symbolPath VARCHAR(255) NULL,
+   symbol BLOB NULL,
    description TEXT NULL
 )
 GO
